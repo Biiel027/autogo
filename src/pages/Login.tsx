@@ -8,7 +8,7 @@ export const Login: React.FC = () => {
   const [password, setPassword] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [errorMsg, setErrorMsg] = useState('');
-  const { signInWithGoogle, signInWithEmail, loginAsDemo, isSupabaseLive } = useAuth();
+  const { signInWithEmail } = useAuth();
   const navigate = useNavigate();
 
   const handleEmailLogin = async (e: React.FormEvent) => {
@@ -29,24 +29,6 @@ export const Login: React.FC = () => {
     } else {
       navigate('/admin');
     }
-  };
-
-  const handleGoogleLogin = async () => {
-    setIsLoading(true);
-    setErrorMsg('');
-    const res = await signInWithGoogle();
-    setIsLoading(false);
-
-    if (res.error) {
-      setErrorMsg(res.error);
-    } else if (!isSupabaseLive) {
-      navigate('/admin');
-    }
-  };
-
-  const handleDemoAccess = () => {
-    loginAsDemo();
-    navigate('/admin');
   };
 
   return (
@@ -85,7 +67,7 @@ export const Login: React.FC = () => {
             Painel de Gestão & Monitoramento
           </h1>
           <p style={{ fontSize: '0.85rem', color: 'var(--text-muted)' }}>
-            Acesso administrativo para acompanhamento de leads e conversas
+            Acesso restrito para consultores e gestores AutoGO
           </p>
         </div>
 
@@ -109,47 +91,6 @@ export const Login: React.FC = () => {
             </div>
           )}
 
-          {/* Botão do Google */}
-          <button
-            type="button"
-            onClick={handleGoogleLogin}
-            disabled={isLoading}
-            className="btn btn-secondary"
-            style={{
-              width: '100%',
-              padding: '11px',
-              fontSize: '0.9rem',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              gap: '10px',
-              marginBottom: '18px',
-              border: '1px solid var(--border-medium)'
-            }}
-          >
-            <svg width="18" height="18" viewBox="0 0 24 24">
-              <path fill="#EA4335" d="M12 5c1.6 0 3 .6 4.1 1.6l3.1-3.1C17.3 1.8 14.8 1 12 1 7.4 1 3.5 3.6 1.6 7.4l3.7 2.9C6.2 7.3 8.9 5 12 5z"/>
-              <path fill="#4285F4" d="M23.5 12.3c0-.8-.1-1.6-.2-2.3H12v4.5h6.5c-.3 1.5-1.1 2.8-2.4 3.7l3.7 2.9c2.2-2 3.7-5 3.7-8.8z"/>
-              <path fill="#FBBC05" d="M5.3 14.7c-.2-.7-.4-1.5-.4-2.4s.2-1.7.4-2.4L1.6 7C.6 9 0 10.4 0 12s.6 3 1.6 5l3.7-2.3z"/>
-              <path fill="#34A853" d="M12 23c3.2 0 6-1.1 8-3l-3.7-2.9c-1.1.7-2.5 1.2-4.3 1.2-3.1 0-5.8-2.3-6.7-5.3L1.6 16C3.5 19.8 7.4 23 12 23z"/>
-            </svg>
-            Entrar com Google
-          </button>
-
-          {/* Divisor */}
-          <div style={{
-            display: 'flex',
-            alignItems: 'center',
-            gap: '12px',
-            margin: '14px 0',
-            color: 'var(--text-muted)',
-            fontSize: '0.78rem'
-          }}>
-            <div style={{ flex: 1, height: '1px', backgroundColor: 'var(--border-subtle)' }} />
-            <span>ou com e-mail cadastrado</span>
-            <div style={{ flex: 1, height: '1px', backgroundColor: 'var(--border-subtle)' }} />
-          </div>
-
           {/* Form E-mail / Senha */}
           <form onSubmit={handleEmailLogin} style={{ display: 'flex', flexDirection: 'column', gap: '14px' }}>
             <div>
@@ -161,7 +102,7 @@ export const Login: React.FC = () => {
                   type="email"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
-                  placeholder="admin@autogo.com.br"
+                  placeholder="consultor@autogo.com.br"
                   className="input-control"
                   style={{ paddingLeft: '36px' }}
                 />
@@ -196,27 +137,6 @@ export const Login: React.FC = () => {
               <ArrowRight size={15} />
             </button>
           </form>
-
-          {/* Acesso Demo Rápido */}
-          <div style={{
-            marginTop: '20px',
-            paddingTop: '18px',
-            borderTop: '1px solid var(--border-subtle)',
-            textAlign: 'center'
-          }}>
-            <button
-              type="button"
-              onClick={handleDemoAccess}
-              className="btn btn-secondary btn-sm"
-              style={{ width: '100%', border: '1px solid var(--border-medium)' }}
-            >
-              <Sparkles size={14} />
-              Acesso Rápido de Demonstração
-            </button>
-            <div style={{ fontSize: '0.72rem', color: 'var(--text-muted)', marginTop: '6px' }}>
-              Permite navegar em todas as telas com dados simulados.
-            </div>
-          </div>
         </div>
 
         <div style={{ textAlign: 'center', marginTop: '20px' }}>

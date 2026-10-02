@@ -5,22 +5,12 @@ import { UserAuth } from '../types';
 interface AuthContextType {
   user: UserAuth | null;
   loading: boolean;
-  signInWithGoogle: () => Promise<{ error?: string }>;
   signInWithEmail: (email: string, password: string) => Promise<{ error?: string }>;
-  loginAsDemo: () => void;
   signOut: () => Promise<void>;
   isSupabaseLive: boolean;
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
-
-const DEMO_USER: UserAuth = {
-  id: 'usr-admin-demo',
-  email: 'admin@autogo.com.br',
-  name: 'Gestor AutoGO',
-  avatar_url: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=200&q=80',
-  role: 'admin'
-};
 
 export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [user, setUser] = useState<UserAuth | null>(() => {
@@ -41,12 +31,15 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
           const authUser: UserAuth = {
             id: session.user.id,
             email: session.user.email || '',
-            name: session.user.user_metadata?.full_name || session.user.email?.split('@')[0] || 'Usuário',
+            name: session.user.user_metadata?.full_name || session.user.email?.split('@')[0] || 'Consultor AutoGO',
             avatar_url: session.user.user_metadata?.avatar_url,
             role: 'admin'
           };
           setUser(authUser);
           localStorage.setItem('autogo_auth_user', JSON.stringify(authUser));
+        } else {
+          setUser(null);
+          localStorage.removeItem('autogo_auth_user');
         }
         setLoading(false);
       });
@@ -56,21 +49,15 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
           const authUser: UserAuth = {
             id: session.user.id,
             email: session.user.email || '',
-            name: session.user.user_metadata?.full_name || session.user.email?.split('@')[0] || 'Usuário',
+            name: session.user.user_metadata?.full_name || session.user.email?.split('@')[0] || 'Consultor AutoGO',
             avatar_url: session.user.user_metadata?.avatar_url,
             role: 'admin'
           };
           setUser(authUser);
           localStorage.setItem('autogo_auth_user', JSON.stringify(authUser));
         } else {
-          // Se não houver sessão Supabase e não for demo local
-          const stored = localStorage.getItem('autogo_auth_user');
-          if (!stored || stored.includes('usr-admin-demo')) {
-            // Mantém se for demo local
-          } else {
-            setUser(null);
-            localStorage.removeItem('autogo_auth_user');
-          }
+          setUser(null);
+          localStorage.removeItem('autogo_auth_user');
         }
         setLoading(false);
       });
@@ -83,56 +70,26 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     }
   }, []);
 
-  const signInWithGoogle = async (): Promise<{ error?: string }> => {
-    if (isSupabaseConfigured && supabase) {
-      const { error } = await supabase.auth.signInWithOAuth({
-        provider: 'google',
-        options: {
-          redirectTo: window.location.origin + '/admin'
-        }
-      });
-      if (error) return { error: error.message };
-      return {};
-    } else {
-      // Simulação instantânea caso as chaves ainda não estejam no .env
-      loginAsDemo();
-      return {};
-    }
-  };
-
   const signInWithEmail = async (email: string, password: string): Promise<{ error?: string }> => {
-    if (isSupabaseConfigured && supabase) {
-      const { data, error } = await supabase.auth.signInWithPassword({ email, password });
-      if (error) return { error: error.message };
-      if (data.user) {
-        const authUser: UserAuth = {
-          id: data.user.id,
-          email: data.user.email || email,
-          name: data.user.user_metadata?.full_name || email.split('@')[0],
-          avatar_url: data.user.user_metadata?.avatar_url,
-          role: 'admin'
-        };
-        setUser(authUser);
-        localStorage.setItem('autogo_auth_user', JSON.stringify(authUser));
-      }
-      return {};
-    } else {
-      // Fallback local: aceita qualquer login ou cria demo
+    if (!isSupabaseConfigured || !supabase) {
+      return { error: 'Supabase não está configurado no arquivo .env.' };
+    }
+
+    const { data, error } = await supabase.auth.signInWithPassword({ email, password });
+    if (error) return { error: error.message };
+    
+    if (data.user) {
       const authUser: UserAuth = {
-        id: `usr-${Date.now()}`,
-        email,
-        name: email.split('@')[0] || 'Gestor AutoGO',
+        id: data.user.id,
+        email: data.user.email || email,
+        name: data.user.user_metadata?.full_name || email.split('@')[0],
+        avatar_url: data.user.user_metadata?.avatar_url,
         role: 'admin'
       };
       setUser(authUser);
       localStorage.setItem('autogo_auth_user', JSON.stringify(authUser));
-      return {};
     }
-  };
-
-  const loginAsDemo = () => {
-    setUser(DEMO_USER);
-    localStorage.setItem('autogo_auth_user', JSON.stringify(DEMO_USER));
+    return {};
   };
 
   const signOut = async () => {
@@ -148,9 +105,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
       value={{
         user,
         loading,
-        signInWithGoogle,
         signInWithEmail,
-        loginAsDemo,
         signOut,
         isSupabaseLive: isSupabaseConfigured
       }}

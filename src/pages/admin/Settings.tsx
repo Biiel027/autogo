@@ -13,14 +13,11 @@ export const Settings: React.FC = () => {
   const [copiedSchema, setCopiedSchema] = useState(false);
   const n8nWebhookUrl = import.meta.env.VITE_N8N_WEBHOOK_URL || '';
 
-  const userSqlSchema = `-- Esquema Ativo no Supabase:
--- 1. TABELA DE CARROS (ESTOQUE)
--- public.cars (id, brand, model, version, year, km, color, price, accepts_trade, financing_available, fuel, transmission, body_type, avg_consumption_city, avg_consumption_road, monthly_cost_estimate, notes, active)
-
--- 2. TABELA DE HISTÓRICO DE MENSAGENS (LANGCHAIN / N8N MEMORY)
+  const userSqlSchema = `-- Esquema Ativo no Supabase para Consultoria AutoGO:
+-- 1. TABELA DE HISTÓRICO DE MENSAGENS (LANGCHAIN / N8N MEMORY)
 -- public.chat_history (id, session_id, message [jsonb], created_at)
 
--- 3. TABELA DE LEADS (QUALIFICAÇÃO & PROFILE DATA)
+-- 2. TABELA DE LEADS (QUALIFICAÇÃO & PROFILE DATA)
 -- public.leads (id, phone, name, city, stage, lead_quality, profile_data [jsonb], mapa_ranking [jsonb], ctm_estimate, ownership_period_years, ctp_estimate, consultant_notes, created_at, updated_at)`;
 
   const copySchema = () => {
@@ -35,7 +32,7 @@ export const Settings: React.FC = () => {
       <div>
         <h1 style={{ fontSize: '1.8rem', fontWeight: 800, color: 'var(--text-primary)' }}>Integrações & Banco de Dados Supabase</h1>
         <p style={{ fontSize: '0.88rem', color: 'var(--text-secondary)', marginTop: '4px' }}>
-          Configurações ativas conectadas diretamente às tabelas <code>public.cars</code>, <code>public.chat_history</code> e <code>public.leads</code>
+          Configurações ativas conectadas diretamente às tabelas <code>public.chat_history</code> e <code>public.leads</code>
         </p>
       </div>
 

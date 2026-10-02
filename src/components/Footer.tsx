@@ -119,9 +119,6 @@ export const Footer: React.FC = () => {
             <Link to="/privacidade" style={{ color: 'var(--text-secondary)', transition: 'color 0.2s' }} onMouseOver={e => e.currentTarget.style.color = 'var(--text-primary)'} onMouseOut={e => e.currentTarget.style.color = 'var(--text-secondary)'}>
               Privacidade & LGPD
             </Link>
-            <span style={{ color: 'var(--status-success)', fontWeight: 600 }}>
-              ● Meta API Verified
-            </span>
           </div>
         </div>
       </div>

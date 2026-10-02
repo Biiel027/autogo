@@ -27,8 +27,7 @@ export const DashboardLayout: React.FC = () => {
   const navItems = [
     { to: '/admin', label: 'Visão Geral', icon: LayoutDashboard, end: true },
     { to: '/admin/conversations', label: 'Monitor de Conversas', icon: MessageSquare, badge: 'WhatsApp & Web' },
-    { to: '/admin/leads', label: 'Perfis de Leads', icon: Users },
-    { to: '/admin/cars', label: 'Estoque de Carros', icon: Car },
+    { to: '/admin/leads', label: 'Perfis de Compradores', icon: Users },
     { to: '/admin/settings', label: 'Integrações & Supabase', icon: Settings },
   ];
 
@@ -136,11 +135,11 @@ export const DashboardLayout: React.FC = () => {
           <div style={{ display: 'flex', alignItems: 'center', gap: '6px', marginBottom: '4px' }}>
             <Database size={13} color={isSupabaseLive ? 'var(--status-success)' : 'var(--status-warning)'} />
             <span style={{ fontWeight: 600, color: 'var(--text-primary)' }}>
-              {isSupabaseLive ? 'Supabase Conectado' : 'Modo Demonstração'}
+              {isSupabaseLive ? 'Supabase Conectado' : 'Supabase Desconectado'}
             </span>
           </div>
           <div style={{ color: 'var(--text-muted)', fontSize: '0.7rem' }}>
-            {isSupabaseLive ? 'Sincronização em tempo real ativa' : 'Dados simulados ativos'}
+            {isSupabaseLive ? 'Sincronização em tempo real ativa' : 'Verifique as chaves no arquivo .env'}
           </div>
         </div>
 

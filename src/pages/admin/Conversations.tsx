@@ -20,7 +20,6 @@ export const Conversations: React.FC = () => {
   const [selectedSessionId, setSelectedSessionId] = useState<string>('');
   const [searchTerm, setSearchTerm] = useState('');
   const [consultantNote, setConsultantNote] = useState('');
-  const [manualMessage, setManualMessage] = useState('');
 
   useEffect(() => {
     const load = async () => {
@@ -69,20 +68,6 @@ export const Conversations: React.FC = () => {
   const activeSession = sessionList.find(s => s.sessionId === selectedSessionId) || sessionList[0];
   const activeMessages = chatHistory.filter(c => c.session_id === activeSession?.sessionId);
   const activeLead = activeSession?.lead;
-
-  const handleSendManualMessage = async (e: React.FormEvent) => {
-    e.preventDefault();
-    if (!manualMessage.trim() || !activeSession) return;
-
-    const content = `[Consultor Humano]: ${manualMessage}`;
-    const newRecord = await dataStore.saveChatMessage(activeSession.sessionId, {
-      type: 'ai',
-      content
-    });
-
-    setChatHistory(prev => [...prev, newRecord]);
-    setManualMessage('');
-  };
 
   const handleUpdateNotes = async () => {
     if (!activeLead) return;
@@ -338,43 +323,19 @@ export const Conversations: React.FC = () => {
               {/* Estágios rápidos */}
               {activeLead && (
                 <div style={{ display: 'flex', alignItems: 'center', gap: '6px', flexWrap: 'wrap' }}>
-                  <span style={{ fontSize: '0.75rem', color: 'var(--text-muted)', fontWeight: 600 }}>Mudar Estágio:</span>
+                  <span style={{ fontSize: '0.75rem', color: 'var(--text-muted)', fontWeight: 600 }}>Mudar Estágio do Lead:</span>
                   {(['interviewing', 'profile_confirmed', 'recommendation_sent', 'handoff_requested', 'closed'] as LeadStage[]).map(st => (
                     <button
                       key={st}
                       onClick={() => handleStageChange(st)}
                       className={`btn btn-sm ${activeLead.stage === st ? 'btn-primary' : 'btn-secondary'}`}
-                      style={{ fontSize: '0.72rem', padding: '3px 8px' }}
+                      style={{ fontSize: '0.72rem', padding: '4px 10px' }}
                     >
                       {st}
                     </button>
                   ))}
                 </div>
               )}
-
-              {/* Form de Envio Manual */}
-              <form
-                onSubmit={handleSendManualMessage}
-                style={{ display: 'flex', gap: '8px', alignItems: 'center' }}
-              >
-                <input
-                  type="text"
-                  value={manualMessage}
-                  onChange={e => setManualMessage(e.target.value)}
-                  placeholder="Enviar mensagem ou instrução como consultor humano no chat_history..."
-                  className="input-control"
-                  style={{ flex: 1, fontSize: '0.86rem' }}
-                />
-                <button
-                  type="submit"
-                  disabled={!manualMessage.trim()}
-                  className="btn btn-primary btn-sm"
-                  style={{ padding: '9px 14px' }}
-                >
-                  <Send size={14} />
-                  Gravar
-                </button>
-              </form>
             </div>
           </div>
         ) : (

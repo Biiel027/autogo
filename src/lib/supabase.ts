@@ -1,9 +1,8 @@
 import { createClient, SupabaseClient } from '@supabase/supabase-js';
-import { Lead, Car, ChatHistoryRecord, LeadStage, LeadQuality } from '../types';
-import { MOCK_LEADS, MOCK_CARS, MOCK_CHAT_HISTORY } from './mockData';
+import { Lead, ChatHistoryRecord, LeadStage, LeadQuality } from '../types';
 
 const supabaseUrl = import.meta.env.VITE_SUPABASE_URL || '';
-const supabaseAnonKey = import.meta.env.VITE_SUPABASE_ANON_KEY || '';
+const supabaseAnonKey = import.meta.env.VITE_SUPABASE_ANON_KEY || (import.meta.env as any).VITE_SUPABASE_PUBLISHABLE_KEY || '';
 
 export const isSupabaseConfigured = Boolean(
   supabaseUrl && 
@@ -42,30 +41,6 @@ export function parseAIMessageContent(rawContent: string): {
   return { cleanContent, stage, quality };
 }
 
-// Armazenamento em memória / localStorage para fallback local autônomo
-const STORAGE_KEYS = {
-  LEADS: 'autogo_real_leads',
-  CARS: 'autogo_real_cars',
-  CHAT_HISTORY: 'autogo_real_chat_history'
-};
-
-const getStoredData = <T>(key: string, defaultData: T): T => {
-  try {
-    const item = localStorage.getItem(key);
-    return item ? JSON.parse(item) : defaultData;
-  } catch {
-    return defaultData;
-  }
-};
-
-const setStoredData = <T>(key: string, data: T): void => {
-  try {
-    localStorage.setItem(key, JSON.stringify(data));
-  } catch (err) {
-    console.warn('Erro ao salvar no localStorage:', err);
-  }
-};
-
 export const dataStore = {
   // LEADS
   getLeads: async (): Promise<Lead[]> => {
@@ -75,69 +50,59 @@ export const dataStore = {
           .from('leads')
           .select('*')
           .order('updated_at', { ascending: false });
-        if (!error && data && data.length > 0) return data as Lead[];
+        if (!error && data) return data as Lead[];
+        if (error) console.error('Erro ao buscar leads no Supabase:', error);
       } catch (err) {
-        console.warn('Erro ao buscar leads no Supabase:', err);
+        console.error('Falha de conexão com Supabase ao buscar leads:', err);
       }
     }
-    return getStoredData<Lead[]>(STORAGE_KEYS.LEADS, MOCK_LEADS);
+    return [];
   },
 
   getLeadByPhone: async (phone: string): Promise<Lead | null> => {
-    const all = await dataStore.getLeads();
-    return all.find(l => l.phone === phone) || null;
+    if (isSupabaseConfigured && supabase) {
+      try {
+        const { data, error } = await supabase
+          .from('leads')
+          .select('*')
+          .eq('phone', phone)
+          .maybeSingle();
+        if (!error && data) return data as Lead;
+      } catch (err) {
+        console.error('Erro ao buscar lead por telefone no Supabase:', err);
+      }
+    }
+    return null;
   },
 
   updateLeadStage: async (leadId: string, stage: LeadStage, quality?: LeadQuality | null): Promise<void> => {
     if (isSupabaseConfigured && supabase) {
       try {
         const updatePayload: any = { stage, updated_at: new Date().toISOString() };
-        if (quality) updatePayload.lead_quality = quality;
-        await supabase.from('leads').update(updatePayload).eq('id', leadId);
+        if (quality !== undefined) updatePayload.lead_quality = quality;
+        const { error } = await supabase.from('leads').update(updatePayload).eq('id', leadId);
+        if (error) console.error('Erro ao atualizar stage no Supabase:', error);
       } catch (err) {
-        console.warn('Erro ao atualizar stage no Supabase:', err);
+        console.error('Falha ao atualizar stage no Supabase:', err);
       }
     }
-    const current = getStoredData<Lead[]>(STORAGE_KEYS.LEADS, MOCK_LEADS);
-    const updated = current.map(l => l.id === leadId ? {
-      ...l,
-      stage,
-      lead_quality: quality !== undefined ? quality : l.lead_quality,
-      updated_at: new Date().toISOString()
-    } : l);
-    setStoredData(STORAGE_KEYS.LEADS, updated);
   },
 
   updateConsultantNotes: async (leadId: string, notes: string): Promise<void> => {
     if (isSupabaseConfigured && supabase) {
       try {
-        await supabase.from('leads').update({ consultant_notes: notes, updated_at: new Date().toISOString() }).eq('id', leadId);
+        const { error } = await supabase
+          .from('leads')
+          .update({ consultant_notes: notes, updated_at: new Date().toISOString() })
+          .eq('id', leadId);
+        if (error) console.error('Erro ao salvar notas no Supabase:', error);
       } catch (err) {
-        console.warn('Erro ao salvar notas no Supabase:', err);
+        console.error('Falha ao salvar notas no Supabase:', err);
       }
     }
-    const current = getStoredData<Lead[]>(STORAGE_KEYS.LEADS, MOCK_LEADS);
-    const updated = current.map(l => l.id === leadId ? { ...l, consultant_notes: notes, updated_at: new Date().toISOString() } : l);
-    setStoredData(STORAGE_KEYS.LEADS, updated);
   },
 
-  // CARROS / ESTOQUE
-  getCars: async (): Promise<Car[]> => {
-    if (isSupabaseConfigured && supabase) {
-      try {
-        const { data, error } = await supabase
-          .from('cars')
-          .select('*')
-          .order('created_at', { ascending: false });
-        if (!error && data && data.length > 0) return data as Car[];
-      } catch (err) {
-        console.warn('Erro ao buscar carros no Supabase:', err);
-      }
-    }
-    return getStoredData<Car[]>(STORAGE_KEYS.CARS, MOCK_CARS);
-  },
-
-  // CHAT HISTORY (LangChain memory)
+  // CHAT HISTORY (Sessões WhatsApp / Web)
   getChatHistory: async (sessionId?: string): Promise<ChatHistoryRecord[]> => {
     if (isSupabaseConfigured && supabase) {
       try {
@@ -146,13 +111,13 @@ export const dataStore = {
           query = query.eq('session_id', sessionId);
         }
         const { data, error } = await query;
-        if (!error && data && data.length > 0) return data as ChatHistoryRecord[];
+        if (!error && data) return data as ChatHistoryRecord[];
+        if (error) console.error('Erro ao buscar chat_history no Supabase:', error);
       } catch (err) {
-        console.warn('Erro ao buscar chat_history no Supabase:', err);
+        console.error('Falha ao buscar chat_history no Supabase:', err);
       }
     }
-    const stored = getStoredData<ChatHistoryRecord[]>(STORAGE_KEYS.CHAT_HISTORY, MOCK_CHAT_HISTORY);
-    return sessionId ? stored.filter(c => c.session_id === sessionId) : stored;
+    return [];
   },
 
   saveChatMessage: async (sessionId: string, message: { type: 'ai' | 'human' | 'system'; content: string }): Promise<ChatHistoryRecord> => {
@@ -177,14 +142,11 @@ export const dataStore = {
           message: newRecord.message
         }]).select().single();
         if (!error && data) return data as ChatHistoryRecord;
+        if (error) console.error('Erro ao inserir chat_history no Supabase:', error);
       } catch (err) {
-        console.warn('Erro ao inserir chat_history no Supabase:', err);
+        console.error('Falha ao inserir chat_history no Supabase:', err);
       }
     }
-
-    const current = getStoredData<ChatHistoryRecord[]>(STORAGE_KEYS.CHAT_HISTORY, MOCK_CHAT_HISTORY);
-    const updated = [...current, newRecord];
-    setStoredData(STORAGE_KEYS.CHAT_HISTORY, updated);
     return newRecord;
   }
 };

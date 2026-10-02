@@ -10,7 +10,6 @@ import { DashboardLayout } from './pages/admin/DashboardLayout';
 import { Overview } from './pages/admin/Overview';
 import { Conversations } from './pages/admin/Conversations';
 import { Leads } from './pages/admin/Leads';
-import { Cars } from './pages/admin/Cars';
 import { Settings } from './pages/admin/Settings';
 
 export const App: React.FC = () => {
@@ -32,7 +31,6 @@ export const App: React.FC = () => {
               <Route index element={<Overview />} />
               <Route path="conversations" element={<Conversations />} />
               <Route path="leads" element={<Leads />} />
-              <Route path="cars" element={<Cars />} />
               <Route path="settings" element={<Settings />} />
             </Route>
           </Route>

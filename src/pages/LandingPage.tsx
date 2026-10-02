@@ -2,24 +2,27 @@ import React from 'react';
 import { Navbar } from '../components/Navbar';
 import { Footer } from '../components/Footer';
 import { ChatWidget } from '../components/ChatWidget';
-import { MOCK_CARS } from '../lib/mockData';
 import {
   Sparkles,
   MessageSquare,
   ShieldCheck,
   Zap,
   TrendingDown,
-  FileSpreadsheet,
   CheckCircle2,
   ArrowRight,
   Layers,
-  Fuel
+  Fuel,
+  Check,
+  AlertTriangle,
+  HeartHandshake,
+  DollarSign,
+  Car
 } from 'lucide-react';
 
 export const LandingPage: React.FC = () => {
   const handleWhatsAppDirect = () => {
-    const text = encodeURIComponent('Olá! Gostaria de receber uma recomendação de carro com a consultoria do AutoGO.');
-    window.open(`https://wa.me/5511987654321?text=${text}`, '_blank');
+    const text = encodeURIComponent('Olá! Gostaria de uma recomendação imparcial para escolher meu próximo carro com o AutoGO.');
+    window.open(`https://wa.me/5527988741555?text=${text}`, '_blank');
   };
 
   return (
@@ -27,7 +30,7 @@ export const LandingPage: React.FC = () => {
       <Navbar />
 
       <main style={{ flex: 1 }}>
-        {/* HERO SECTION - Executivo & Limpo (Sem névoas amarelas de IA) */}
+        {/* HERO SECTION - Foco B2C: Confiança, Economia e Decisão Segura */}
         <section style={{
           position: 'relative',
           padding: '80px 0 60px 0',
@@ -37,7 +40,7 @@ export const LandingPage: React.FC = () => {
           <div className="container" style={{ textAlign: 'center', maxWidth: '920px' }}>
             <div style={{ display: 'inline-flex', marginBottom: '18px' }}>
               <span className="badge badge-neutral" style={{ padding: '6px 14px', fontSize: '0.82rem', gap: '8px' }}>
-                <ShieldCheck size={14} color="var(--status-success)" /> Consultoria Independente com Inteligência Analítica
+                <ShieldCheck size={14} color="var(--status-success)" /> Consultoria Automotiva 100% Independente
               </span>
             </div>
 
@@ -49,7 +52,7 @@ export const LandingPage: React.FC = () => {
               letterSpacing: '-0.03em',
               color: 'var(--text-primary)'
             }}>
-              A Decisão Certa na Compra do Seu Próximo Carro.
+              Compre o carro ideal para a sua rotina — sem pressão e sem surpresas no bolso.
             </h1>
 
             <p style={{
@@ -59,7 +62,7 @@ export const LandingPage: React.FC = () => {
               maxWidth: '740px',
               margin: '0 auto 32px auto'
             }}>
-              Sem pressão de concessionária. O <strong>AutoGO</strong> analisa suas necessidades de espaço, rotina de uso, consumo e orçamento, cruzando dados da Tabela FIPE e histórico de mercado para entregar um dossiê técnico de compra em minutos.
+              Não temos estoque para empurrar. O <strong>AutoGO</strong> analisa suas necessidades de espaço familiar, trajeto diário e orçamento para encontrar a melhor compra do mercado, evitando carros com manutenção cara ou desvalorização excessiva.
             </p>
 
             {/* CTAs Principais */}
@@ -73,7 +76,7 @@ export const LandingPage: React.FC = () => {
             }}>
               <a href="#chat-ia" className="btn btn-primary btn-lg">
                 <Sparkles size={17} />
-                Iniciar Consulta Online
+                Fazer Consulta Gratuita
               </a>
               <button onClick={handleWhatsAppDirect} className="btn btn-whatsapp btn-lg">
                 <MessageSquare size={17} />
@@ -81,7 +84,7 @@ export const LandingPage: React.FC = () => {
               </button>
             </div>
 
-            {/* Métricas Concessionária Premium */}
+            {/* Destaques de Benefício para o Comprador */}
             <div style={{
               display: 'grid',
               gridTemplateColumns: 'repeat(auto-fit, minmax(180px, 1fr))',
@@ -91,20 +94,20 @@ export const LandingPage: React.FC = () => {
               borderTop: '1px solid var(--border-subtle)'
             }}>
               <div className="card" style={{ padding: '16px 20px', textAlign: 'center', backgroundColor: 'var(--bg-tertiary)' }}>
-                <div style={{ fontSize: '1.7rem', fontWeight: 800, color: 'var(--text-primary)' }}>2.400+</div>
-                <div style={{ fontSize: '0.78rem', color: 'var(--text-muted)' }}>Veículos FIPE Mapeados</div>
+                <div style={{ fontSize: '1.5rem', fontWeight: 800, color: 'var(--text-primary)' }}>2.400+</div>
+                <div style={{ fontSize: '0.78rem', color: 'var(--text-muted)' }}>Modelos e Versões no Mercado</div>
               </div>
               <div className="card" style={{ padding: '16px 20px', textAlign: 'center', backgroundColor: 'var(--bg-tertiary)' }}>
-                <div style={{ fontSize: '1.7rem', fontWeight: 800, color: 'var(--status-success)' }}>96.8%</div>
-                <div style={{ fontSize: '0.78rem', color: 'var(--text-muted)' }}>Índice de Assertividade</div>
+                <div style={{ fontSize: '1.5rem', fontWeight: 800, color: 'var(--status-success)' }}>100% Imparcial</div>
+                <div style={{ fontSize: '0.78rem', color: 'var(--text-muted)' }}>Zero Comissão de Vendedores</div>
               </div>
               <div className="card" style={{ padding: '16px 20px', textAlign: 'center', backgroundColor: 'var(--bg-tertiary)' }}>
-                <div style={{ fontSize: '1.7rem', fontWeight: 800, color: 'var(--text-primary)' }}>R$ 4.800</div>
-                <div style={{ fontSize: '0.78rem', color: 'var(--text-muted)' }}>Economia Média em TCO</div>
+                <div style={{ fontSize: '1.5rem', fontWeight: 800, color: 'var(--text-primary)' }}>Custo Total (TCO)</div>
+                <div style={{ fontSize: '0.78rem', color: 'var(--text-muted)' }}>Seguro, Peças & Depreciação</div>
               </div>
               <div className="card" style={{ padding: '16px 20px', textAlign: 'center', backgroundColor: 'var(--bg-tertiary)' }}>
-                <div style={{ fontSize: '1.7rem', fontWeight: 800, color: '#0284c7' }}>100%</div>
-                <div style={{ fontSize: '0.78rem', color: 'var(--text-muted)' }}>Agnóstico a Montadoras</div>
+                <div style={{ fontSize: '1.5rem', fontWeight: 800, color: '#0284c7' }}>Em Minutos</div>
+                <div style={{ fontSize: '0.78rem', color: 'var(--text-muted)' }}>Dossiê com Prós e Contras</div>
               </div>
             </div>
           </div>
@@ -122,13 +125,13 @@ export const LandingPage: React.FC = () => {
               {/* Coluna Esquerda: Contexto & Critérios */}
               <div>
                 <div className="badge badge-neutral" style={{ marginBottom: '12px' }}>
-                  <Sparkles size={12} /> Assistente Inteligente
+                  <Sparkles size={12} /> Consultoria Rápida
                 </div>
                 <h2 style={{ fontSize: '2rem', fontWeight: 800, marginBottom: '16px', color: 'var(--text-primary)' }}>
-                  Faça sua Consulta em Poucos Segundos
+                  Descubra o Carro Ideal em Poucos Passos
                 </h2>
                 <p style={{ fontSize: '0.95rem', color: 'var(--text-secondary)', lineHeight: '1.6', marginBottom: '24px' }}>
-                  Informe o que você busca: o limite de investimento, se precisa de porta-malas para cadeirinhas ou se roda muito na cidade. Nosso motor técnico cruza os dados na hora.
+                  Conte para nosso assistente o que você precisa: tamanho do porta-malas para a família, economia de combustível para o dia a dia ou o limite de orçamento. Nós filtramos as melhores opções do mercado para você.
                 </p>
 
                 {/* Tópicos */}
@@ -136,24 +139,24 @@ export const LandingPage: React.FC = () => {
                   <div className="card" style={{ padding: '14px 18px', display: 'flex', gap: '14px', alignItems: 'center' }}>
                     <div style={{ color: '#0f172a' }}><Fuel size={22} /></div>
                     <div>
-                      <h4 style={{ fontSize: '0.92rem', fontWeight: 700 }}>Híbrido vs 100% Elétrico</h4>
-                      <p style={{ fontSize: '0.8rem', color: 'var(--text-secondary)' }}>Descubra se a sua quilometragem urbana justifica a migração para eletrificação.</p>
+                      <h4 style={{ fontSize: '0.92rem', fontWeight: 700 }}>Economia Real de Combustível</h4>
+                      <p style={{ fontSize: '0.8rem', color: 'var(--text-secondary)' }}>Consumo urbano e rodoviário oficial pelo Inmetro para não ter surpresa no posto.</p>
                     </div>
                   </div>
 
                   <div className="card" style={{ padding: '14px 18px', display: 'flex', gap: '14px', alignItems: 'center' }}>
                     <div style={{ color: 'var(--status-success)' }}><Layers size={22} /></div>
                     <div>
-                      <h4 style={{ fontSize: '0.92rem', fontWeight: 700 }}>Espaço para Família e Bagagem</h4>
-                      <p style={{ fontSize: '0.8rem', color: 'var(--text-secondary)' }}>Cálculo real de litragem de porta-malas e facilidade de fixação ISOFIX.</p>
+                      <h4 style={{ fontSize: '0.92rem', fontWeight: 700 }}>Espaço e Segurança para a Família</h4>
+                      <p style={{ fontSize: '0.8rem', color: 'var(--text-secondary)' }}>Litragem de porta-malas, fixação ISOFIX para cadeirinhas e pontuação de segurança.</p>
                     </div>
                   </div>
 
                   <div className="card" style={{ padding: '14px 18px', display: 'flex', gap: '14px', alignItems: 'center' }}>
                     <div style={{ color: '#0284c7' }}><TrendingDown size={22} /></div>
                     <div>
-                      <h4 style={{ fontSize: '0.92rem', fontWeight: 700 }}>Custo Total de Propriedade (TCO)</h4>
-                      <p style={{ fontSize: '0.8rem', color: 'var(--text-secondary)' }}>Estimativa de IPVA, seguro médio e depreciação média após 2 anos.</p>
+                      <h4 style={{ fontSize: '0.92rem', fontWeight: 700 }}>Custo de Manutenção & Seguro</h4>
+                      <p style={{ fontSize: '0.8rem', color: 'var(--text-secondary)' }}>Preço médio das revisões periódicas, facilidade de peças e estimativa de IPVA.</p>
                     </div>
                   </div>
                 </div>
@@ -167,51 +170,86 @@ export const LandingPage: React.FC = () => {
           </div>
         </section>
 
-        {/* SEÇÃO DO SHOWCASE DO ESTOQUE / VEÍCULOS */}
+        {/* SEÇÃO DO EXEMPLO DE DOSSIÊ (Substituindo o antigo estoque) */}
         <section id="relatorio-showcase" style={{ padding: '72px 0', backgroundColor: '#ffffff', borderBottom: '1px solid var(--border-subtle)' }}>
           <div className="container">
             <div style={{ textAlign: 'center', maxWidth: '720px', margin: '0 auto 44px auto' }}>
               <span className="badge badge-neutral" style={{ marginBottom: '10px' }}>
-                <FileSpreadsheet size={12} /> Estoque & Oportunidades
+                <ShieldCheck size={12} color="var(--status-success)" /> Dossiê de Recomendação
               </span>
               <h2 style={{ fontSize: '2rem', fontWeight: 800, marginBottom: '12px' }}>
-                Veículos em Destaque no Estoque
+                Como Funciona na Prática?
               </h2>
               <p style={{ fontSize: '0.95rem', color: 'var(--text-secondary)', lineHeight: '1.6' }}>
-                Modelos revisados e catalogados com análise de consumo Inmetro e Custo Total Mensal estimado.
+                Veja um exemplo real de como o AutoGO compara veículos no mercado com clareza para você tomar uma decisão inteligente:
               </p>
             </div>
 
-            {/* Card de Demonstração do Estoque */}
-            <div className="card" style={{ maxWidth: '900px', margin: '0 auto', padding: '28px', border: '1px solid var(--border-medium)', boxShadow: 'var(--shadow-md)' }}>
-              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '16px', marginBottom: '20px', borderBottom: '1px solid var(--border-subtle)', paddingBottom: '16px' }}>
+            {/* Card Demonstrativo do Dossiê */}
+            <div className="card" style={{ maxWidth: '920px', margin: '0 auto', padding: '32px', border: '1px solid var(--border-medium)', boxShadow: 'var(--shadow-md)' }}>
+              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '12px', marginBottom: '24px', borderBottom: '1px solid var(--border-subtle)', paddingBottom: '18px' }}>
                 <div>
-                  <span className="badge badge-success" style={{ marginBottom: '6px' }}>Estoque Selecionado</span>
-                  <h3 style={{ fontSize: '1.25rem', fontWeight: 800 }}>Destaques com Laudo Cautelar & Procedência</h3>
+                  <span className="badge badge-neutral" style={{ marginBottom: '6px' }}>Cenário Simulado: Família (4 pessoas) • Orçamento até R$ 95.000</span>
+                  <h3 style={{ fontSize: '1.25rem', fontWeight: 800 }}>Comparativo de Compra: SUV Urbano vs Sedan Médio</h3>
                 </div>
                 <a href="#chat-ia" className="btn btn-primary btn-sm">
-                  Consultar com o Assistente <ArrowRight size={14} />
+                  Fazer Meu Diagnóstico <ArrowRight size={14} />
                 </a>
               </div>
 
-              {/* Preview dos 2 carros principais */}
-              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: '18px' }}>
-                {MOCK_CARS.slice(0, 2).map((car) => (
-                  <div key={car.id} style={{ backgroundColor: 'var(--bg-tertiary)', border: '1px solid var(--border-subtle)', borderRadius: 'var(--radius-md)', padding: '16px' }}>
-                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '8px' }}>
-                      <span className="badge badge-neutral" style={{ fontWeight: 700 }}>{car.body_type.toUpperCase()} • {car.year}</span>
-                      <span style={{ fontSize: '0.78rem', color: 'var(--text-muted)' }}>{car.fuel}</span>
+              {/* Comparativo Lado a Lado de 2 Opções de Mercado */}
+              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: '20px' }}>
+                {/* Opção 1 */}
+                <div style={{ backgroundColor: 'var(--bg-tertiary)', border: '1px solid var(--border-subtle)', borderRadius: 'var(--radius-md)', padding: '20px' }}>
+                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '10px' }}>
+                    <span className="badge badge-success" style={{ fontWeight: 700 }}>OPÇÃO A • FOCO ECONOMIA</span>
+                    <span style={{ fontSize: '0.8rem', fontWeight: 700, color: 'var(--text-primary)' }}>FIPE: ~R$ 88.000</span>
+                  </div>
+                  <h4 style={{ fontSize: '1.15rem', fontWeight: 800, marginBottom: '4px' }}>Sedan Médio Flex (2020)</h4>
+                  <div style={{ fontSize: '0.82rem', color: 'var(--text-secondary)', marginBottom: '16px' }}>Excelente porta-malas e baixa desvalorização</div>
+                  
+                  <div style={{ display: 'flex', flexDirection: 'column', gap: '8px', fontSize: '0.83rem', color: 'var(--text-primary)' }}>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: '6px', color: 'var(--status-success)' }}>
+                      <Check size={16} /> <strong>Porta-malas:</strong> 470 Litros (ideal para malas e carrinho)
                     </div>
-                    <h4 style={{ fontSize: '1.05rem', fontWeight: 800 }}>{car.brand} {car.model}</h4>
-                    <div style={{ fontSize: '0.82rem', color: 'var(--text-secondary)', marginBottom: '10px' }}>{car.version || ''}</div>
-                    
-                    <div style={{ fontSize: '0.8rem', color: 'var(--text-primary)', display: 'flex', flexDirection: 'column', gap: '4px', backgroundColor: '#ffffff', padding: '10px', borderRadius: 'var(--radius-sm)', border: '1px solid var(--border-subtle)' }}>
-                      <div><strong>Preço:</strong> R$ {car.price.toLocaleString('pt-BR')}</div>
-                      <div><strong>Quilometragem:</strong> {car.km ? `${car.km.toLocaleString('pt-BR')} km` : '0 km'}</div>
-                      <div><strong>Consumo Urbano:</strong> {car.avg_consumption_city ? `${car.avg_consumption_city} km/l` : 'Econômico'}</div>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: '6px', color: 'var(--status-success)' }}>
+                      <Check size={16} /> <strong>Consumo Cidade:</strong> 11,8 km/l (gasolina)
+                    </div>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: '6px', color: 'var(--status-success)' }}>
+                      <Check size={16} /> <strong>Manutenção:</strong> Peças baratas e mecânica simples
+                    </div>
+                    <div style={{ display: 'flex', alignItems: 'flex-start', gap: '6px', color: '#b45309', marginTop: '6px', backgroundColor: '#fef3c7', padding: '8px 10px', borderRadius: 'var(--radius-sm)' }}>
+                      <AlertTriangle size={15} style={{ flexShrink: 0, marginTop: '2px' }} />
+                      <span><strong>Ponto de atenção:</strong> Posição de dirigir mais baixa que um SUV.</span>
                     </div>
                   </div>
-                ))}
+                </div>
+
+                {/* Opção 2 */}
+                <div style={{ backgroundColor: 'var(--bg-tertiary)', border: '1px solid var(--border-subtle)', borderRadius: 'var(--radius-md)', padding: '20px' }}>
+                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '10px' }}>
+                    <span className="badge badge-neutral" style={{ fontWeight: 700 }}>OPÇÃO B • FOCO CONFORTO</span>
+                    <span style={{ fontSize: '0.8rem', fontWeight: 700, color: 'var(--text-primary)' }}>FIPE: ~R$ 93.000</span>
+                  </div>
+                  <h4 style={{ fontSize: '1.15rem', fontWeight: 800, marginBottom: '4px' }}>SUV Compacto Turbo (2019)</h4>
+                  <div style={{ fontSize: '0.82rem', color: 'var(--text-secondary)', marginBottom: '16px' }}>Posição elevada e facilidade em lombadas/buracos</div>
+                  
+                  <div style={{ display: 'flex', flexDirection: 'column', gap: '8px', fontSize: '0.83rem', color: 'var(--text-primary)' }}>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: '6px', color: 'var(--status-success)' }}>
+                      <Check size={16} /> <strong>Dirigibilidade:</strong> Altura do solo de 20cm
+                    </div>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: '6px', color: 'var(--status-success)' }}>
+                      <Check size={16} /> <strong>Consumo Cidade:</strong> 10,2 km/l (gasolina)
+                    </div>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: '6px', color: 'var(--status-success)' }}>
+                      <Check size={16} /> <strong>Porta-malas:</strong> 390 Litros
+                    </div>
+                    <div style={{ display: 'flex', alignItems: 'flex-start', gap: '6px', color: '#b45309', marginTop: '6px', backgroundColor: '#fef3c7', padding: '8px 10px', borderRadius: 'var(--radius-sm)' }}>
+                      <AlertTriangle size={15} style={{ flexShrink: 0, marginTop: '2px' }} />
+                      <span><strong>Ponto de atenção:</strong> Seguro médio ~15% mais alto que a Opção A.</span>
+                    </div>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
@@ -222,13 +260,13 @@ export const LandingPage: React.FC = () => {
           <div className="container">
             <div style={{ textAlign: 'center', maxWidth: '700px', margin: '0 auto 48px auto' }}>
               <span className="badge badge-neutral" style={{ marginBottom: '10px' }}>
-                <Zap size={12} /> Processo Simples
+                <Zap size={12} /> Passo a Passo
               </span>
               <h2 style={{ fontSize: '2rem', fontWeight: 800, marginBottom: '12px' }}>
                 Como Funciona a Consultoria AutoGO
               </h2>
               <p style={{ fontSize: '0.95rem', color: 'var(--text-secondary)' }}>
-                Uma jornada transparente do primeiro contato até o test-drive.
+                Uma jornada transparente do diagnóstico até a escolha do carro certo.
               </p>
             </div>
 
@@ -253,9 +291,9 @@ export const LandingPage: React.FC = () => {
                 }}>
                   1
                 </div>
-                <h3 style={{ fontSize: '1.05rem', fontWeight: 700, marginBottom: '8px' }}>Você Conversa</h3>
+                <h3 style={{ fontSize: '1.05rem', fontWeight: 700, marginBottom: '8px' }}>Você Conta Sua Rotina</h3>
                 <p style={{ fontSize: '0.85rem', color: 'var(--text-secondary)', lineHeight: '1.5' }}>
-                  No WhatsApp ou no site, você detalha sua rotina, faixa de valor e exigências indispensáveis.
+                  No WhatsApp ou no site, você informa sua rotina de uso, tamanho da família, limite de valor e preferências.
                 </p>
               </div>
 
@@ -275,9 +313,9 @@ export const LandingPage: React.FC = () => {
                 }}>
                   2
                 </div>
-                <h3 style={{ fontSize: '1.05rem', fontWeight: 700, marginBottom: '8px' }}>Cruzamento de Dados</h3>
+                <h3 style={{ fontSize: '1.05rem', fontWeight: 700, marginBottom: '8px' }}>Análise de Mercado</h3>
                 <p style={{ fontSize: '0.85rem', color: 'var(--text-secondary)', lineHeight: '1.5' }}>
-                  O sistema analisa consumo, desvalorização FIPE, histórico mecânico e custo de manutenção.
+                  Cruzamos consumo real, histórico de manutenção, custo médio de seguro e desvalorização FIPE.
                 </p>
               </div>
 
@@ -299,7 +337,7 @@ export const LandingPage: React.FC = () => {
                 </div>
                 <h3 style={{ fontSize: '1.05rem', fontWeight: 700, marginBottom: '8px' }}>Dossiê com Prós e Contras</h3>
                 <p style={{ fontSize: '0.85rem', color: 'var(--text-secondary)', lineHeight: '1.5' }}>
-                  Você recebe os 2 ou 3 melhores modelos com números claros e pontos de atenção para não errar.
+                  Você recebe as melhores opções com números claros e pontos de atenção para não errar na compra.
                 </p>
               </div>
 
@@ -319,9 +357,9 @@ export const LandingPage: React.FC = () => {
                 }}>
                   4
                 </div>
-                <h3 style={{ fontSize: '1.05rem', fontWeight: 700, marginBottom: '8px' }}>Agendamento Sem Fila</h3>
+                <h3 style={{ fontSize: '1.05rem', fontWeight: 700, marginBottom: '8px' }}>Decisão Segura</h3>
                 <p style={{ fontSize: '0.85rem', color: 'var(--text-secondary)', lineHeight: '1.5' }}>
-                  Agende sua visita em concessionária parceira ou receba a orientação para fechar negócio com segurança.
+                  Você negocia o carro que realmente faz sentido para você, com tranquilidade e sem cair na lábia de vendedores.
                 </p>
               </div>
             </div>
@@ -339,40 +377,40 @@ export const LandingPage: React.FC = () => {
             }}>
               <div>
                 <span className="badge badge-neutral" style={{ marginBottom: '12px' }}>
-                  <ShieldCheck size={12} /> Nosso Compromisso
+                  <HeartHandshake size={12} /> Nosso Compromisso
                 </span>
                 <h2 style={{ fontSize: '2rem', fontWeight: 800, marginBottom: '16px' }}>
-                  Por Que o AutoGO é Imparcial?
+                  Por Que o AutoGO é 100% Imparcial?
                 </h2>
                 <p style={{ fontSize: '0.95rem', color: 'var(--text-secondary)', lineHeight: '1.6', marginBottom: '16px' }}>
-                  Comprar um veículo é um dos maiores investimentos de uma família. Lojas tradicionais tendem a direcionar o cliente para os estoques encalhados ou de maior comissão.
+                  Comprar um carro é uma das decisões financeiras mais importantes de uma família. Lojas e concessionárias tradicionais naturalmente tentam direcionar você para os estoques parados no pátio ou que pagam a maior comissão.
                 </p>
                 <p style={{ fontSize: '0.95rem', color: 'var(--text-secondary)', lineHeight: '1.6', marginBottom: '20px' }}>
-                  O AutoGO opera com total independência algorítmica: nossos relatórios priorizam a segurança do seu patrimônio e a adequação real à sua rotina.
+                  No AutoGO, <strong>não vendemos carros próprios</strong>. Nosso único objetivo é encontrar a melhor compra em todo o mercado nacional para o seu perfil e o seu bolso.
                 </p>
 
                 <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
                   <div style={{ display: 'flex', alignItems: 'center', gap: '8px', fontSize: '0.9rem' }}>
                     <CheckCircle2 size={16} color="var(--status-success)" />
-                    <span>Algoritmo 100% independente de montadoras</span>
+                    <span>Zero comissão de lojistas ou montadoras</span>
                   </div>
                   <div style={{ display: 'flex', alignItems: 'center', gap: '8px', fontSize: '0.9rem' }}>
                     <CheckCircle2 size={16} color="var(--status-success)" />
-                    <span>Dados de consumo homologados pelo Inmetro</span>
+                    <span>Dados de consumo e histórico mecânico verificados</span>
                   </div>
                   <div style={{ display: 'flex', alignItems: 'center', gap: '8px', fontSize: '0.9rem' }}>
                     <CheckCircle2 size={16} color="var(--status-success)" />
-                    <span>Atendimento rápido no WhatsApp e na Web</span>
+                    <span>Atendimento rápido e descomplicado no WhatsApp</span>
                   </div>
                 </div>
               </div>
 
               <div className="card" style={{ padding: '32px', border: '1px solid var(--border-medium)', backgroundColor: 'var(--bg-tertiary)' }}>
                 <h3 style={{ fontSize: '1.25rem', fontWeight: 800, marginBottom: '14px', color: 'var(--text-primary)' }}>
-                  Pronto para encontrar o seu carro ideal?
+                  Pronto para encontrar o seu próximo carro?
                 </h3>
                 <p style={{ fontSize: '0.88rem', color: 'var(--text-secondary)', lineHeight: '1.5', marginBottom: '20px' }}>
-                  Receba seu primeiro relatório personalizado direto no WhatsApp em menos de 2 minutos.
+                  Converse agora com o consultor AutoGO no WhatsApp e receba sua recomendação em minutos.
                 </p>
 
                 <button
@@ -381,7 +419,7 @@ export const LandingPage: React.FC = () => {
                   style={{ width: '100%', marginBottom: '10px' }}
                 >
                   <MessageSquare size={18} />
-                  Falar no WhatsApp
+                  Falar com Consultor no WhatsApp
                 </button>
                 <div style={{ textAlign: 'center', fontSize: '0.75rem', color: 'var(--text-muted)' }}>
                   Atendimento gratuito • Sem necessidade de cadastro prévio
